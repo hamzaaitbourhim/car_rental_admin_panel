@@ -1,0 +1,116 @@
+/*Ceci est un projet scolaire pour mettre en place une base de données pour les projets de location de voitures*/
+
+*{
+    padding: 0;
+    margin: 0;
+}
+body{
+    background: #efefef !important;
+    
+    font-family: sans-serif;
+}
+.title{
+    text-align: center;
+    margin: 100px auto 50px;
+    font-size: 30px;
+}
+.title p{
+    color: #555;
+    font-size: 20px;
+    margin-top: 10px;
+    line-height: 24px;
+}
+.profile{
+    width: 240px;
+    height: 240px;
+    background: #fff;
+    border-radius: 4px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 10px 10px rgba(115,193,255,0.1);
+    padding: 20px;
+    position: relative;
+    transition: background 0.5s ;
+}
+.profile img{
+    width: 100px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    border-radius: 4px;
+    transition: .5s ;
+}
+.profile h4{
+    font-size: 20px;
+    margin-top: 25px;
+    margin-bottom: 5px;
+    color: #2196f3;
+}
+.notmine h4{
+    font-size: 20px;
+    margin-top: 47.5px;
+    margin-bottom: 5px;
+    color: #2196f3;
+}
+.social{
+    background: #2196f3;
+    margin: 30px auto 15px;
+    text-align: center;
+    border-radius: 3px;
+
+}
+.social .fa{
+    margin: 5px 10px;
+    color: #fff;
+    cursor: pointer;
+}
+.profile p{
+    text-align: center;
+    line-height: 24px;
+    color: #555;
+}
+.team-row{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 85%;
+    margin: auto;
+}
+.profile img:hover{
+    width: 240px;
+}
+.profile:hover{
+    background: #2196f3;
+}
+.profile:hover h4{
+    color: #fff;
+}
+.profile:hover p{
+    color: #efefef;
+}
+.profile:hover .social{
+    background: #fff;
+}
+.profile:hover .social .fa{
+    color: #2196f3;
+}
+
+
+
+@media screen and (max-width: 670px){
+    
+    .title{
+        font-size: 20px;
+    }
+    .title p{
+
+        font-size: 18px;
+        line-height: 20px;
+    }
+}
+
+@media screen and (max-width: 658px){
+    .team-row{
+        margin-left: 20%;
+    }
+
+}

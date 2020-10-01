@@ -1,0 +1,1004 @@
+<!--Ceci est un projet scolaire pour mettre en place une base de données pour les projets de location de voitures-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Montserrat|Cardo' type='text/css'>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="static/css/home.css">
+    <link rel="icon" type="image/png" href="static/images/favicon.png">
+    <title>projet SI-Admin</title>
+</head>
+
+<body>
+
+    <header class="main_h">
+
+        <div class="row">
+            <a class="logout" href="/logout"><i class="fa fa-sign-out"></i></i></a>
+
+            <div class="mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <nav>
+                <ul>
+                    <li><a href=".sec00">clients</a></li>
+                    <li><a href=".sec01">RÉSERVATIONS</a></li>
+                    <li><a href=".sec02">locations</a></li>
+                    <li><a href=".sec03">véhicules</a></li>
+                    <li><a href=".sec04">types</a></li>
+                    <li><a href=".sec05">admins</a></li>
+                </ul>
+            </nav>
+
+        </div>
+
+    </header>
+
+    <div class="hero">
+
+        <h1><span>bienvenue dans votre espace</span><br>{{session['firstname']}}!</h1>
+
+        <div class="mouse">
+            <span></span>
+        </div>
+
+    </div>
+
+    <div class="row content">
+
+        <!--clients table-->
+
+        <h1 class="sec00">Gestion des clients</h1>
+
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>Nos <b>Clients</b></h2>
+                    </div>
+                    <div class="col-sm-6">
+                        <a href="#addclient" class="btn btn-success" data-toggle="modal"><i
+                                class="material-icons">&#xE147;</i> <span>Ajouter un client</span></a>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>CIN</th>
+                        <th>N° Permis</th>
+                        <th>Nom</th>
+                        <th>Date de naissance</th>
+                        <th>Telephone</th>
+                        <th>Adresse</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in clients %}
+                    <tr>
+                        <td>{{row['cin']}}</td>
+                        <td>{{row['permis']}}</td>
+                        <td>{{row['prenom']}} {{row['nom']}}</td>
+                        <td>{{row['datenaissance']}}</td>
+                        <td>{{row['telephone']}}</td>
+                        <td>{{row['adresse']}}</td>
+                        <td>
+                            <a href="#editclient" class="edit" data-toggle="modal"><i class="material-icons"
+                                    data-toggle="tooltip" title="Modifier">&#xE254;</i></a>
+                            <a href="#deleteclient" class="delete" data-toggle="modal"><i class="material-icons"
+                                    data-toggle="tooltip" title="Supprimer">&#xE872;</i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- Add client form -->
+        <div id="addclient" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{url_for('addclient')}}" method="POST">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Ajouter un client</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>CIN</label>
+                                <input type="text" name="cin" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Mot de passe</label>
+                                <input type="text" name="motdepasse" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>N° de permis</label>
+                                <input type="text" name="permis" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Prénom</label>
+                                <input type="text" name="prenom" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Nom</label>
+                                <input type="text" name="nom" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Date de naissance</label>
+                                <input type="date" name="datenaissance" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>N° de telephone</label>
+                                <input type="text" name="telephone" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Adresse</label>
+                                <input type="text" name="adresse" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Annuler">
+                            <input type="submit" class="btn btn-success" value="Ajouter">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit client form -->
+
+        <div id="editclient" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{url_for('editclient')}}" method="POST">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Modifier ce client</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Vous devez entrer le CIN du client que vous souhaitez modifier pour
+                                    plus de sécurité :</label>
+                                <input type="text" name="cin" class="form-control" required>
+                            </div>
+                            <p>Maintenant vous pouvez changer ces informations :</p>
+                            <div class="form-group">
+                                <label>Mot de passe</label>
+                                <input type="text" name="motdepasse" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>N° de permis</label>
+                                <input type="text" name="permis" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Prénom</label>
+                                <input type="text" name="prenom" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Nom</label>
+                                <input type="text" name="nom" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Date de naissance</label>
+                                <input type="date" name="datenaissance" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>N° de telephone</label>
+                                <input type="text" name="telephone" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Adresse</label>
+                                <input type="text" name="adresse" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Annuler">
+                            <input type="submit" class="btn btn-info" value="Modifier">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete client form -->
+
+        <div id="deleteclient" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{url_for('deleteclient')}}" method="POST">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Supprimer ce client</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Voulez-vous vraiment supprimer cet enregistrement?</p>
+                            <p class="text-warning"><small>Cette action ne peut pas être annulée.</small></p>
+                            <div class="form-group">
+                                <label>Vous devez entrer le CIN du client que vous souhaitez supprimer pour
+                                    plus de sécurité :</label>
+                                <input type="text" name="cin" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Annuler">
+                            <input type="submit" class="btn btn-danger" value="Supprimer">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+        <h1 class="sec01">Gestion des réservations</h1>
+
+
+
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>Les <b>réservations</b> de nos clients</h2>
+                    </div>
+                    <div class="col-sm-6">
+                        <a href="#addbooking" class="btn btn-success" data-toggle="modal"><i
+                                class="material-icons">&#xE147;</i> <span>Ajouter une réservation</span></a>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>CIN</th>
+                        <th>Type de vehicule</th>
+                        <th>Date de départ</th>
+                        <th>Date de retour</th>
+                        <th>montant total(MAD)</th>
+                        <th>Acceptée</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in bookings %}
+                    <tr>
+                        <td>{{row['idreservation']}}</td>
+                        <td>{{row['cin']}}</td>
+                        <td>{{row['idtype']}}</td>
+                        <td>{{row['datedepart']}}</td>
+                        <td>{{row['dateretour']}}</td>
+                        <td>{{row['total']}}</td>
+                        {% if row['acceptee']: %}
+                        <td>oui</td>
+                        {% else: %}
+                        <td>non</td>
+                        {% endif %}
+                        {% if not row['vue']: %}
+                        <td>
+                            <a href="#acceptbooking" class="edit" data-toggle="modal"><i class="material-icons"
+                                    data-toggle="tooltip" title="Accepter">done</i></a>
+                            <a href="#refusebooking" class="delete" data-toggle="modal"><i class="material-icons"
+                                    data-toggle="tooltip" title="Refuser">clear</i></a>
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- Add booking form -->
+        <div id="addbooking" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{url_for('addbooking')}}" method="POST">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Ajouter une réservation</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>CIN du client</label>
+                                <input type="text" name="cin" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>L'identifiant de type du véhicule</label>
+                                <input type="number" name="idtype" class="form-control" min="{{minimum}}"
+                                    max="{{maximum}}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Date de départ</label>
+                                <input type="datetime-local" name="datedepart" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Date de retour</label>
+                                <input type="datetime-local" name="dateretour" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Durée(jours)</label>
+                                <input type="number" name="duree" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Annuler">
+                            <input type="submit" class="btn btn-success" value="Ajouter">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Accept booking form -->
+
+        <div id="acceptbooking" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{url_for('acceptbooking')}}" method="POST">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Accepter cette réservation</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Voulez-vous vraiment accepter cet enregistrement?</p>
+                            <p class="text-warning"><small>Cette action ne peut pas être annulée.</small></p>
+                            <div class="form-group">
+                                <label>Vous devez entrer l'identifiant(#) de la réservation que vous souhaitez accepter
+                                    pour
+                                    plus de sécurité :</label>
+                                <input type="number" name="idreservation" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Entrez la matricule du véhicule que vous allez donner à ce client</label>
+                                <input type="text" name="matricule" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Annuler">
+                            <input type="submit" class="btn btn-success" value="Accepter">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Refuse booking form -->
+
+        <div id="refusebooking" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{url_for('refusebooking')}}" method="POST">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Refuser cette réservation</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Voulez-vous vraiment refuser cet enregistrement?</p>
+                            <p class="text-warning"><small>Cette action ne peut pas être annulée.</small></p>
+                            <div class="form-group">
+                                <label>Vous devez entrer l'identifiant(#) de la réservation que vous souhaitez refuser
+                                    pour
+                                    plus de sécurité :</label>
+                                <input type="number" name="idreservation" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Annuler">
+                            <input type="submit" class="btn btn-danger" value="Refuser">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <h1 class="sec02">Gestion des locations</h1>
+
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>Nos <b>Locations Courantes</b></h2>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th># de la réservation</th>
+                        <th>Matricule</th>
+                        <th>Payée</th>
+                        <th>Supprimer(véhicule rendu)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in rentals %}
+                    <tr>
+                        <td>{{row['idreservation']}}</td>
+                        <td>{{row['matricule']}}</td>
+                        {% if row['payee']: %}
+                        <td>oui</td>
+                        {% else: %}
+                        <td>non
+                            {% if not row['payee']: %}
+                            <a href="#paidrental" class="edit" data-toggle="modal"><i class="material-icons"
+                                    data-toggle="tooltip" title="ce client a-t-il déjà payé?">done</i></a>
+                            {% endif %}
+                        </td>
+                        {% endif %}
+                        <td>
+                            <a href="#deleterental" class="delete" data-toggle="modal"><i class="material-icons"
+                                    data-toggle="tooltip" title="Supprimer">&#xE872;</i></a>
+
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- Paid rental form -->
+
+        <div id="paidrental" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{url_for('paidrental')}}" method="POST">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Définir cette location comme payée</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Voulez-vous vraiment supprimer cet enregistrement?</p>
+                            <p class="text-warning"><small>Cette action ne peut pas être annulée.</small></p>
+                            <div class="form-group">
+                                <label>Vous devez entrer l'identifiant(#) de la location(reservation) que vous souhaitez définir
+                                    comme payée pour plus de sécurité :</label>
+                                <input type="number" name="idreservation" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Annuler">
+                            <input type="submit" class="btn btn-success" value="Payée">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete rental form -->
+
+        <div id="deleterental" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{url_for('deleterental')}}" method="POST">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Supprimer cette location</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Voulez-vous vraiment supprimer cet enregistrement?</p>
+                            <p class="text-warning"><small>Cette action ne peut pas être annulée.</small></p>
+                            <div class="form-group">
+                                <label>Vous devez entrer l'identifiant(#) de la location(reservation) que vous souhaitez supprimer
+                                    pour
+                                    plus de sécurité :</label>
+                                <input type="number" name="idreservation" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Annuler">
+                            <input type="submit" class="btn btn-danger" value="Supprimer">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!--cars table-->
+
+
+        <h1 class="sec03">Gestion des véhicules</h1>
+
+
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>Nos <b>Véhicules</b></h2>
+                    </div>
+                    <div class="col-sm-6">
+                        <a href="#addcar" class="btn btn-success" data-toggle="modal"><i
+                                class="material-icons">&#xE147;</i> <span>Ajouter un véhicule</span></a>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Matricule</th>
+                        <th>Identifiant de Type</th>
+                        <th>Type</th>
+                        <th>Disponible</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in cars %}
+                    <tr>
+                        <td>{{row['matricule']}}</td>
+                        <td>{{row['idtype']}}</td>
+                        <td>{{row['marque']}} {{row['modele']}}</td>
+                        {% if row['disponible']: %}
+                        <td>oui</td>
+                        {% else: %}
+                        <td>non</td>
+                        {% endif %}
+                        <td>
+                            <a href="#deletecar" class="delete" data-toggle="modal"><i class="material-icons"
+                                    data-toggle="tooltip" title="Supprimer">&#xE872;</i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- Add car form -->
+
+
+        <div id="addcar" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{url_for('addcar')}}" method="POST">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Ajouter un véhicule</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Matricule</label>
+                                <input type="text" name="matricule" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Identifiant de Type</label>
+                                <input type="number" name="idtype" min="{{minimum}}" max="{{maximum}}"
+                                    class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Annuler">
+                            <input type="submit" class="btn btn-success" value="Ajouter">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Delete car form -->
+
+
+        <div id="deletecar" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{url_for('deletecar')}}" method="POST">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Delete Employee</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Voulez-vous vraiment supprimer cet enregistrement?</p>
+                            <p class="text-warning"><small>Cette action ne peut pas être annulée.</small></p>
+                            <div class="form-group">
+                                <label>Vous devez entrer la matricule de la voiture que vous souhaitez supprimer pour
+                                    plus de sécurité :</label>
+                                <input type="text" name="matricule" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Annuler">
+                            <input type="submit" class="btn btn-danger" value="Supprimer">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <!--types table-->
+
+
+        <h1 class="sec04">Gestion des types de véhicules</h1>
+
+
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>Nos <b>Types de Véhicules</b></h2>
+                    </div>
+                    <div class="col-sm-6">
+                        <a href="#addtype" class="btn btn-success" data-toggle="modal"><i
+                                class="material-icons">&#xE147;</i> <span>Ajouter un type</span></a>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Marque</th>
+                        <th>Modèle</th>
+                        <th>Carburant</th>
+                        <th>Couleur</th>
+                        <th>Climatisation</th>
+                        <th>Prix par jours(MAD)</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in types %}
+                    <tr>
+                        <td>{{row['idtype']}}</td>
+                        <td>{{row['marque']}}</td>
+                        <td>{{row['modele']}}</td>
+                        <td>{{row['carburant']}}</td>
+                        <td>{{row['couleur']}}</td>
+                        {% if row['climatisation']: %}
+                        <td>oui</td>
+                        {% else: %}
+                        <td>non</td>
+                        {% endif %}
+                        <td>{{row['prix']}}</td>
+                        <td>
+                            <a href="#edittype" class="edit" data-toggle="modal"><i class="material-icons"
+                                    data-toggle="tooltip" title="Modifier">&#xE254;</i></a>
+                            <a href="#deletetype" class="delete" data-toggle="modal"><i class="material-icons"
+                                    data-toggle="tooltip" title="Supprimer">&#xE872;</i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- Add type form -->
+
+
+        <div id="addtype" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{url_for('addtype')}}" method="POST">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Ajouter un type de véhicules</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Marque</label>
+                                <input type="text" name="marque" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Modèle</label>
+                                <input type="text" name="modele" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Carburant</label>
+                                <input type="text" name="carburant" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Couleur</label>
+                                <input type="text" name="couleur" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Climatisation(oui/non)</label>
+                                <input type="text" name="climatisation" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Prix par jour(MAD)</label>
+                                <input type="number" name="prix" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Annuler">
+                            <input type="submit" class="btn btn-success" value="Ajouter">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit type form -->
+
+        <div id="edittype" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{url_for('edittype')}}" method="POST">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Modifier ce type</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Vous devez entrer l'identifiant (#) du type que vous souhaitez modifier pour
+                                    plus de sécurité :</label>
+                                <input type="number" name="idtype" class="form-control" min="{{minimum}}"
+                                    max="{{maximum}}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Marque</label>
+                                <input type="text" name="marque" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Modèle</label>
+                                <input type="text" name="modele" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Carburant</label>
+                                <input type="text" name="carburant" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Couleur</label>
+                                <input type="text" name="couleur" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Climatisation(oui/non)</label>
+                                <input type="text" name="climatisation" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Prix par jour(MAD)</label>
+                                <input type="number" name="prix" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Annuler">
+                            <input type="submit" class="btn btn-info" value="Modifier">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Delete type form -->
+
+
+        <div id="deletetype" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{url_for('deletetype')}}" method="POST">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Supprimer ce type de véhicules</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Voulez-vous vraiment supprimer cet enregistrement?</p>
+                            <p class="text-warning"><small>Cette action ne peut pas être annulée.</small></p>
+                            <div class="form-group">
+                                <label>Vous devez entrer l'identifiant (#) du type que vous souhaitez supprimer pour
+                                    plus de sécurité :</label>
+                                <input type="text" name="idtype" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Annuler">
+                            <input type="submit" class="btn btn-danger" value="Supprimer">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!-- admins table -->
+
+        <h1 class="sec05">Gestion des admins</h1>
+
+
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>Nos <b>Admins</b></h2>
+                    </div>
+                    <div class="col-sm-6">
+                        <a href="#addadmin" class="btn btn-success" data-toggle="modal"><i
+                                class="material-icons">&#xE147;</i> <span>Ajouter un admin</span></a>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Prénom</th>
+                        <th>Nom</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in admins %}
+                    <tr>
+                        <td>{{row['id']}}</td>
+                        <td>{{row['firstname']}}</td>
+                        <td>{{row['lastname']}}</td>
+                        <td>{{row['email']}}</td>
+                        <td>
+                            {% if session['id'] == row['id']: %}
+                            <a href="#editadmin" class="edit" data-toggle="modal"><i class="material-icons"
+                                    data-toggle="tooltip" title="Modifier">&#xE254;</i></a>
+                            <a href="#deleteadmin" class="delete" data-toggle="modal"><i class="material-icons"
+                                    data-toggle="tooltip" title="Supprimer">&#xE872;</i></a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Add admin form -->
+
+        <div id="addadmin" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{url_for('addadmin')}}" method="POST">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Ajouter un admin</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Nom d'utilisateur</label>
+                                <input type="text" name="username" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Prénom</label>
+                                <input type="text" name="firstname" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Nom</label>
+                                <input type="text" name="lastname" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" name="email" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Mot de passe</label>
+                                <input type="password" name="password" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Annuler">
+                            <input type="submit" class="btn btn-success" value="Ajouter">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit admin form -->
+
+        <div id="editadmin" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{url_for('editadmin')}}" method="POST">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Modifier les informations de l'admin</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Nom d'utilisateur</label>
+                                <input type="text" name="username" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Prénom</label>
+                                <input type="text" name="firstname" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Nom</label>
+                                <input type="text" name="lastname" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" name="email" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Mot de passe</label>
+                                <input type="password" name="password" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Annuler">
+                            <input type="submit" class="btn btn-success" value="Modifier">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete admin form -->
+
+        <div id="deleteadmin" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{url_for('deleteadmin')}}" method="POST">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Supprimer l'admin</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Voulez-vous vraiment supprimer cet enregistrement?</p>
+                            <p class="text-warning"><small>Cette action ne peut pas être annulée.</small></p>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Annuler">
+                            <input type="submit" class="btn btn-danger" value="Supprimer">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- footer -->
+
+    <footer class="fixed_footer">
+        <div class="content">
+            <div>
+                <div class="titre">À propos</div>Ces pages web font partie d'un projet scolaire réalisé par <a
+                    href="/team">un groupe d'étudiants</a> de <a href="http://www.esta.ac.ma/" target="_blank">l'école
+                    supérieure de technologie d'agadir</a>, afin de mettre en place une base de données complète et
+                solide pour les projets de location de voitures. <br><br>
+            </div>
+            <div>
+                <div class="titre">Technologies</div> FRONT : html5, css3, bootstrap, javascript, jquery, ajax. <br>BACK
+                : python, flask. <br>DBMS : mysql. <br><br>
+            </div>
+        </div>
+    </footer>
+
+
+    <!--Jquery, AJAX, bootstrap et mon fichier de javascript-->
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="static/javascript/home.js"></script>
+
+</body>
+
+</html>
