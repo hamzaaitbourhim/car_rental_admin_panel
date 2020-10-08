@@ -4,7 +4,7 @@
 
 ==> Le projet est déployé à cette adresse : https://projetsi.pythonanywhere.com/
 
-vous pouvez vous connecter avec l'un des comptes suivants :
+vous pouvez vous connecter avec l'un des comptes suivants:
 
   1- username: admin  password: hamza12
   
@@ -14,7 +14,7 @@ vous pouvez vous connecter avec l'un des comptes suivants :
   
   4- username: admin4  password: abdellah12
 
-==> si vous souhaitez tester le projet chez votre hôte local(localhost) , procédez comme suit :
+==> si vous souhaitez tester le projet chez votre hôte local(localhost) , procédez comme suit:
 
   1- téléchargez python 3.8 sur votre machine.
   
