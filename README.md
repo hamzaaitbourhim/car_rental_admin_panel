@@ -3,7 +3,7 @@
 ![Screenshot 2021-03-12 222251](https://user-images.githubusercontent.com/69424447/110999990-87f60800-8381-11eb-99a9-3534a96d3156.jpg)
 
 
-# projet_si
+# CAR_RENTAL
 
 ==> Il s'agit d'un projet scolaire pour une base de données + un panneau d'administration pouvant être utilisé pour des projets de location de voitures.
 
